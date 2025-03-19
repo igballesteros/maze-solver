@@ -2,11 +2,12 @@ from graphics import Line, Point
 
 
 class Cell:
-    def __init__(self, win):
+    def __init__(self, win=None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
         self.has_bottom_wall = True
+        self.visited = False
         self._x1 = None
         self._x2 = None
         self._y1 = None
@@ -20,20 +21,29 @@ class Cell:
         self._y2 = y2
 
         if self.has_left_wall:
-            l = Line(Point(x1, y1), Point(x1, y2))
-            self._win.draw_line(l)
-
-        if self.has_right_wall:
-            l = Line(Point(x2, y1), Point(x2, y2))
-            self._win.draw_line(l, "black")
-
+            line = Line(Point(x1, y1), Point(x1, y2))
+            self._win.draw_line(line)
+        else:
+            line = Line(Point(x1, y1), Point(x1, y2))
+            self._win.draw_line(line, "white")
         if self.has_top_wall:
-            l = Line(Point(x1, y1), Point(x2, y1))
-            self._win.draw_line(l, "black")
-
+            line = Line(Point(x1, y1), Point(x2, y1))
+            self._win.draw_line(line)
+        else:
+            line = Line(Point(x1, y1), Point(x2, y1))
+            self._win.draw_line(line, "white")
+        if self.has_right_wall:
+            line = Line(Point(x2, y1), Point(x2, y2))
+            self._win.draw_line(line)
+        else:
+            line = Line(Point(x2, y1), Point(x2, y2))
+            self._win.draw_line(line, "white")
         if self.has_bottom_wall:
-            l = Line(Point(x1, y2), Point(x2, y2))
-            self._win.draw_line(l, "black")
+            line = Line(Point(x1, y2), Point(x2, y2))
+            self._win.draw_line(line)
+        else:
+            line = Line(Point(x1, y2), Point(x2, y2))
+            self._win.draw_line(line, "white")
 
     def draw_move(self, to_cell, undo=False):
 
@@ -47,6 +57,6 @@ class Cell:
 
         l = Line(middle_current, middle_next)
         if undo:
-            self._win.draw_line(l, "red")
-        else:
             self._win.draw_line(l, "gray")
+        else:
+            self._win.draw_line(l, "red")
